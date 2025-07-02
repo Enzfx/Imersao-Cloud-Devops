@@ -1,0 +1,19 @@
+services:
+  # Serviço principal da API Ellis
+  ellis-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ellis-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Volume para desenvolvimento (descomente se quiser hot reload)
+      - .:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/docs || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
